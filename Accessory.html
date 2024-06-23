@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="Accessories.css">
+    <title>Car Accessories</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .add-button {
+            margin-top: 10px;
+            width: 200px;
+            border-radius: 6px;
+        }
+    </style>
+    <script>
+        function addItem() {
+            // Accessory
+            var accessorySelect = document.getElementById("accessories");
+            var selectedAccessory = accessorySelect.options[accessorySelect.selectedIndex].text;
+            // Amount
+            var amountInput = document.getElementById("amount-input");
+            var amount = amountInput.value;
+            // Price
+            var priceInput = document.getElementById("price-input");
+            var price = priceInput.value;
+            // Total Price
+            var totalPrice = document.getElementById("total-price");
+            // Total VAT
+            var totalVat = document.getElementById("vatAmount");
+
+            var productTable = document.getElementById("productList");
+            var row = productTable.insertRow(-1);
+            var accessoryCell = row.insertCell(0);
+            var priceCell = row.insertCell(1);
+            var amountCell = row.insertCell(2);
+            var vatCell = row.insertCell(3);
+
+            accessoryCell.innerHTML = selectedAccessory;
+            priceCell.innerHTML = "$" + price;
+            amountCell.innerHTML = amount;
+
+            var vatRate = 0.07;
+            var vatAmount = price * vatRate * amount;
+            vatCell.innerHTML = vatAmount.toFixed(2);
+
+            totalPrice.innerHTML = "$" + (parseFloat(totalPrice.innerHTML.substring(1)) + (price * amount));
+
+            totalVat.innerHTML = "$" + (parseFloat(totalVat.innerHTML.substring(1)) + (vatAmount)).toFixed(2);
+        }
+        function toggleFunc() {
+          var x = document.getElementById("vat-id");
+          if (x.style.display === "none") {
+            x.style.display = "block";
+          } else {
+            x.style.display = "none";
+          }
+        }
+    </script>
+</head>
+<body>
+    <h1>Car Accessories</h1>
+    <label for="accessories">Choose an accessory:</label> 
+        <select id="accessories"> 
+            <!-- Accessories and their prices --> 
+           <option>Benz</option> 
+            <option>Audi</option> 
+            <option>BMW</option> 
+         </select>
+    <br><br>
+    <label for="price">Accessory Price ($):</label> 
+    <input type="number" id="price-input" min="1" value="1">
+    <br><br> 
+    <label for="amount">Amount:</label> 
+    <input type="number" id="amount-input" min="1" value="1">
+    <br>
+    <button class="add-button" onclick="addItem()">Add</button>
+    <table id="productList"> 
+         <tr> 
+            <th>Accessory</th> 
+            <th>Price</th> 
+            <th>Amount</th>
+            <th>VAT</th> 
+      </tr> 
+        </table> 
+    <h2>Total Price: <span id="total-price">$0</span></h2>
+    <button class="add-button" onclick="toggleFunc();">Show Calculate Total VAT</button>
+    <div id="vat-id" style="display: none;"><h2>Total VAT: <span id="vatAmount">$0</span></h2></div>
+</body>
+</html>
